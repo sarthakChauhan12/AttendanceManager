@@ -1,0 +1,26 @@
+.student-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .student-profile img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+  
+  .student-profile h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  
+  .student-profile p {
+    font-size: 18px;
+  }
+  
+  .block {
+    display: block;
+  }
