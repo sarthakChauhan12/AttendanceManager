@@ -15,10 +15,11 @@
   }
   
   .no-student-message {
-    text-align: center;
+    text-align: left;
   }
   
   .attendance-form {
+    /* margin: 20px; */
     /* display: flex; */
     /* flex-direction: column; */
     /* align-items: center; */
@@ -32,11 +33,16 @@
     margin-bottom: 20px;
   }
 
+  .margin-adder{
+    margin: 10px 20px;
+  }
+
   
   
   .mark-attendance-button,
   .delete-attendance-button {
     padding: 10px 20px;
+    margin: 0px 20px;
     background-color: #4CAF50;
     color: white;
     border: none;

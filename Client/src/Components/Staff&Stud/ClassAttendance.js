@@ -5,26 +5,27 @@ import './ClassAttendance.css'
 
 const ClassAttedance = () => {
     
-    const [status, setStatus] = useState("absent");
-    const params = useParams();
+  const [status, setStatus] = useState("absent");
+  const params = useParams();
+  const classs = params.id;
     useEffect(() => {
+      const getClassList = async() => {
+          let result = await fetch("http://localhost:5000/classlist/" + classs, {
+              headers: {
+                  authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+                }
+          });
+          result = await result.json();
+          if(result){
+              setListOfStudents(result);
+          }else{
+              setListOfStudents({message:"No student found in the class!"});
+          }
+      }
         getClassList();
-      }, []);
+      }, [classs]);
     const [listOfStudents, setListOfStudents] = useState({});
-    const classs = params.id;
-    const getClassList = async() => {
-        let result = await fetch("http://localhost:5000/classlist/" + classs, {
-            headers: {
-                authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
-              }
-        });
-        result = await result.json();
-        if(result){
-            setListOfStudents(result);
-        }else{
-            setListOfStudents({message:"No student found in the class!"});
-        }
-    }
+    
 
     const [absentees, setAbsentees] = useState();
 
@@ -57,6 +58,7 @@ const ClassAttedance = () => {
       
 
     return <div>
+      <h3 className="no-student-message margin-adder">Students of class {classs} are: </h3>
     {listOfStudents.length > 0 ? listOfStudents.map((item) => {
       const count = item.attendance.filter(function(element) {
         return element === true;
@@ -70,7 +72,7 @@ const ClassAttedance = () => {
     <h1 className="no-student-message">No Student Found</h1>}
     <form>
       <textarea rows="5" cols="25" className="absentees-input" placeholder='Enter the roll number of students as an array...' onChange={(e) => setAbsentees(e.target.value)} value={absentees} />
-      <div className="attendance-form">
+      <div className="attendance-form margin-adder">
         <input type="radio" name="att" value="present" className="present-radio" onChange={() => setStatus("present")} /> Mark presents <br />
         <input type="radio" name="att" value="absent" className="absent-radio" onChange={() => setStatus("absent")} defaultChecked /> Mark absents <br /><br />
         <button type="submit" className="mark-attendance-button" onClick={handleAttendanceSubmit}>Mark Attendance</button>

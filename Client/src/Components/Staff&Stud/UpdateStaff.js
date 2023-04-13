@@ -12,26 +12,27 @@ const UpdateStaff = () => {
     const [classes,setClasses] = useState("");
 
     useEffect(()=>{
+        const getUserDetails = async () => {
+            let result = await fetch(`http://localhost:5000/profile/${params.id}`,{
+                headers: {
+                    authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+                  }
+            })
+            result = await result.json();
+            setName(result.name);
+            setEmail(result.email);
+            setPassword(result.password);
+            console.log(typeof(result.classes));
+            setClasses(JSON.stringify(result.classes));
+        }
         getUserDetails();
-    },[])
+    },[params.id])
 
-    const getUserDetails = async () => {
-        let result = await fetch(`http://localhost:5000/profile/${params.id}`,{
-            headers: {
-                authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
-              }
-        })
-        result = await result.json();
-        setName(result.name);
-        setEmail(result.email);
-        setPassword(result.password);
-        console.log(typeof(result.classes));
-        setClasses(JSON.stringify(result.classes));
-    }
+    
 
     const handleUpdateClick = async () => {
         const temp = JSON.parse(classes);
-        let result = await fetch(`http://localhost:5000/updateprofile/${params.id}`,{
+        await fetch(`http://localhost:5000/updateprofile/${params.id}`,{
             method:"put",
             body:JSON.stringify({name,email,password,classes:temp}),
             headers:{
@@ -39,7 +40,7 @@ const UpdateStaff = () => {
                 authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
             }
         })
-        result = await result.json();
+        alert("Profile updated successfully!");
         navigate("/staff");
     }
 

@@ -10,14 +10,13 @@ const StaffLogin = () => {
 
   
   const [component, setComponent] = useState(1);
-  const [classs, setClasss] = useState("");
   
   return (
     <div>
       <Sidebar login="Staff" func={setComponent}/>
       <div className="outside-sidebar">
         {component===1 && <Profile name="Shin Ryujin"/>}
-        {component===2 && <MakeAtt func={setClasss}/>}
+        {component===2 && <MakeAtt />}
         {component===3 && <CheckTT />}
       </div>
     </div>

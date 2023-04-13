@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from "react";
-import { Pie } from 'react-chartjs-2';
 
 import PieChartt from "./PieChart";
 
@@ -20,7 +19,7 @@ const CheckAtt = () => {
       setResult1(result);
     };
     getUser();
-  }, []);
+  }, [id]);
 
   const presentCount = result1.attendance ?  result1.attendance.filter(element => element === true).length : 0;
   const absentCount =result1.attendance ? result1.attendance.length - presentCount: 0;
