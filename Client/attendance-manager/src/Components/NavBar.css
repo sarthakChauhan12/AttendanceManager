@@ -1,0 +1,60 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 25px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-brand {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .navbar-toggler {
+    border: none;
+    outline: none;
+    background: none;
+  }
+  
+  .navbar-toggler-icon {
+    width: 30px;
+    height: 2px;
+    background-color: #333;
+    border-radius: 10px;
+    transition: all 0.2s;
+  }
+  
+  .navbar-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-item {
+    margin: 0 10px;
+  }
+  
+  .nav-link {
+    font-size: 1.2em;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  
+  .nav-link:hover {
+    color: #007bff;
+  }
+  
+  @media (max-width: 992px) {
+    .navbar-nav {
+      flex-direction: column;
+    }
+  
+    .navbar-toggler {
+      display: block;
+    }
+  }
+  

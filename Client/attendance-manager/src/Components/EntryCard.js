@@ -6,20 +6,17 @@ import './EntryCard.css'
 
 const EntryCard = () =>{
 
-  const navigate = useNavigate();
-
-  const userId = JSON.parse(localStorage.getItem("auth"));
+  const navigate = useNavigate();  
 
 
     return (<div className="card card-width">
-    <img className="card-img-top" src="#" alt="Card image cap" />
-    <div className="card-body">
-      <h5 className="card-title">Card title</h5>
-      <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" className="btn btn-primary" onClick = {() => navigate('/login')}>Login</a>
-      <a href="#" className="btn btn-primary" onClick = {() => navigate('/signup')}>Sign Up</a>
+      <div className="card-body">
+        <h5 className="card-title">Authenticate first!</h5>
+        <p className="card-text">To make use of the attendance management system, login or signup first.</p>
+        <a href="#" className="btn btn-primary" onClick = {() => navigate('/login')}>Login</a>
+        <a href="#" className="btn btn-primary" onClick = {() => navigate('/signup')}>Sign Up</a>
+      </div>
       
-    </div>
   </div>)
 }
 

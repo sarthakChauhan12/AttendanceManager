@@ -1,0 +1,46 @@
+/* Attendance Tracker Styles */
+
+.student-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .student-item {
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+  }
+  
+  .no-student-message {
+    text-align: center;
+  }
+  
+  .attendance-form {
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center; */
+  }
+  
+  .absentees-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    width: 50%;
+    margin-bottom: 20px;
+  }
+
+  
+  
+  .mark-attendance-button,
+  .delete-attendance-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

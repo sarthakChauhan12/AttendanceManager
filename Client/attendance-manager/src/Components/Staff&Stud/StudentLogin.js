@@ -16,7 +16,7 @@ const StudentLogin = () => {
     <div>
       <Sidebar login="Student" func={setComponent}/>
       <div className="outside-sidebar">
-        {component===0 && <h3>Verified Student.</h3>}
+        {component===0 && alert('Verified Student.')}
         {component===1 && <Profile name="Shin Ryujin"/>}
         {component===2 && <CheckAtt />}
         {component===3 && <CheckTT />}

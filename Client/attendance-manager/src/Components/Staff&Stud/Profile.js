@@ -27,7 +27,12 @@ const Profile = (props) => {
   }, []);
 
   const handleUpdateProfile = () => {
-    navigate('/update/' + id);
+    let password = prompt("Please enter your password:", "");
+    if(result1.password === password)
+      {navigate('/update/' + id)} 
+      else{
+        alert("Access denied!");
+      }
   }
 
   return (

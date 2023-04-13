@@ -33,6 +33,41 @@ const Login = () => {
         //console.log("No user found!");
     }
 
+    const sendEmail = async (to, subject, text) => {
+        const response = await fetch("http://localhost:5000/mail", {
+          method: "post",
+          body: JSON.stringify({ to, subject, text }),
+          headers: {
+            "Content-Type": "application/json",
+        },
+        });
+        const result = await response.json();
+        console.log(result);
+      };
+    
+    const changePassword = async() => {
+        let result = await fetch(`http://localhost:5000/updatepassword/${email}`,{
+            method:"put",
+            headers:{
+                'Content-Type':'application/json',
+            }
+        })
+        if(result) {
+            result = await result.json();
+            navigate("/login");
+          } else {
+            console.error("The result from the API is either null or undefined");
+          }
+    }
+      
+    const handleSendEmail = () => {
+    if (window.confirm("Enter your email and then press OK.")) {
+        sendEmail(email, "New password for attendance management system", "Your new password is: ImGenius. Make sure to remember this password in future!");
+        changePassword();
+        alert("Password updated! Check your email to get your new password and login using that!")
+    }
+    };
+
     return <div className="login-form">
         <form>
         <div className="form-group">
@@ -47,7 +82,8 @@ const Login = () => {
             <label>Password: </label>
             <input type="password" className="form-control inputbox" onChange={(e)=>setPassword(e.target.value)} id="exampleInputPassword1" value={password} placeholder="Password"/>
         </div>
-        <button type="submit" onClick={handleLogin} className="btn btn-primary">Submit</button>
+        <p className="forget" style={{color: "blue", cursor: "pointer"}} onClick={handleSendEmail}>Forgot password?</p>
+        <button type="submit" onClick={handleLogin} className="btn submitType btn-primary">Submit</button>
         </form> 
     </div>
 }

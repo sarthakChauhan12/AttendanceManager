@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 
+import './MakeAtt.css'
+
 const MakeAtt = () => {
 
   const navigate = useNavigate();
@@ -33,14 +35,16 @@ const MakeAtt = () => {
 
   return (
     <div>
-      <h2>Here's a list of classes you teach in: </h2>
-      {myArray.map((element, index) => (
-        <div key={index}>
-          <span>{element}</span>
-          <button onClick={() => handleClick(element)}>Take Att</button>
-        </div>
-      ))}
-    </div>
+  <h2 className="classes-header">Here's a list of classes you teach in: </h2>
+  <div className="classes-container">
+    {myArray.map((element, index) => (
+      <div className="classes-item" key={index}>
+        <span className="classes-name">{element} -</span>
+        <button className="classes-button" onClick={() => handleClick(element)}>Take Att</button>
+      </div>
+    ))}
+  </div>
+</div>
   );
 }
 

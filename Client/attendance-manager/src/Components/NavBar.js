@@ -2,6 +2,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import './NavBar.css';
+
 const NavBar = () => {
 
   const navigate = useNavigate();
@@ -10,9 +12,10 @@ const NavBar = () => {
     localStorage.clear();
     navigate('/');
 }
+let role = localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")).role : "";
+  if(role === "Admin") role = "staff";
 
-  let role = localStorage.length>0?JSON.parse(localStorage.getItem("user")).role : "";
-  if(role === "Admin") role = "staff"
+  let name = localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")).name : "";
 
     return <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,8 +28,8 @@ const NavBar = () => {
       <li className="nav-item">
         <a className="nav-link" href={`/`+ role}>Home</a>
       </li>
-      {localStorage.length>0 && <li className="nav-item ml-auto">
-        <a className="nav-link" style={{cursor:"pointer",textAlign:"right"}} onClick={logout}>Logout</a>
+      {localStorage.getItem("user") && <li className="nav-item ml-auto">
+        <a className="nav-link" style={{cursor:"pointer",textAlign:"right"}} onClick={logout}>Logout, {name}</a>
       </li>}
     </ul>
   </div>

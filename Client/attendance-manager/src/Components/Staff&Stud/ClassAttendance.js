@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 
+import './ClassAttendance.css'
+
 const ClassAttedance = () => {
     
     const [status, setStatus] = useState("absent");
@@ -31,7 +33,7 @@ const ClassAttedance = () => {
         // e.preventDefault();
         let array = JSON.parse(absentees);
         //console.log((array));
-        let result = await fetch(`http://localhost:5000/list/${params.id}`,{
+        await fetch(`http://localhost:5000/list/${params.id}`,{
             method:"put",
             body:JSON.stringify({absentees:array, status}),
             headers: {
@@ -39,30 +41,43 @@ const ClassAttedance = () => {
                 authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
               }
         })
-        result = await result.json();
+        // result = await result.json();
         // navigate("/staff");
     }
 
-    return <div>
-        {listOfStudents.length > 0 ? listOfStudents.map((item) => {
-            const count = item.attendance.filter(function(element) {
-                return element === true;
-            }).length;
-        return (
-          <ul key={item._id}>
-            <li>{item.rollno} - {item.name} - Present: {count} & Absent: {item.attendance.length - count}</li>
-          </ul>
-        );
-      }):
-      <h1>No Student Found</h1>}
-      <form>
-        <textarea rows="5" cols="25" className='block' placeholder='Enter the roll number of students as an array...' onChange={(e)=>setAbsentees(e.target.value)} value={absentees}/>
-        <input type="radio" name="att" value="present" onChange={()=>setStatus("present")}/> Mark presents<br/>
-        <input type="radio" name="att" value="absent" onChange={()=>setStatus("absent")} defaultChecked/> Mark absents<br/>
-        <button type="submit" onClick={handleAttendanceSubmit} >Mark Attendance</button>
-    </form>
+    const deleteAttendance = async (classname) => {
+        await fetch(`http://localhost:5000/delete/${params.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        // result = await result.json();
+      };
+      
 
-    </div>
+    return <div>
+    {listOfStudents.length > 0 ? listOfStudents.map((item) => {
+      const count = item.attendance.filter(function(element) {
+        return element === true;
+      }).length;
+      return (
+        <ul key={item._id} className="student-list">
+          <li className="student-item">{item.rollno} - {item.name} - Present: {count} & Absent: {item.attendance.length - count}</li>
+        </ul>
+      );
+    }) : 
+    <h1 className="no-student-message">No Student Found</h1>}
+    <form>
+      <textarea rows="5" cols="25" className="absentees-input" placeholder='Enter the roll number of students as an array...' onChange={(e) => setAbsentees(e.target.value)} value={absentees} />
+      <div className="attendance-form">
+        <input type="radio" name="att" value="present" className="present-radio" onChange={() => setStatus("present")} /> Mark presents <br />
+        <input type="radio" name="att" value="absent" className="absent-radio" onChange={() => setStatus("absent")} defaultChecked /> Mark absents <br /><br />
+        <button type="submit" className="mark-attendance-button" onClick={handleAttendanceSubmit}>Mark Attendance</button>
+        <button type="submit" className="delete-attendance-button" onClick={deleteAttendance}>Delete Last Attendance</button>
+      </div>
+    </form>
+  </div>
 }
 
 export default ClassAttedance;

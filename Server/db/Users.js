@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
     classes: Array,
     attendance: Array,
     class: String,
-    rollno: Number
+    rollno: Number,
+    selectedImage: Buffer,
 });
 
 module.exports = mongoose.model('users', userSchema);

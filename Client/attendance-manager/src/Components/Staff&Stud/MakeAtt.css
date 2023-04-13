@@ -1,0 +1,30 @@
+.classes-header {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .classes-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .classes-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .classes-name {
+    font-size: 18px;
+    margin-right: 20px;
+  }
+  
+  .classes-button {
+    padding: 5px 9px;
+    background-color: lightblue;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

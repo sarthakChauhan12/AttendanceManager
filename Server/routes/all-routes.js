@@ -1,9 +1,65 @@
 const express = require('express');
 const User = require('../db/Users');
 const Jwt = require('jsonwebtoken');
+const SendMail = require('../Controllers/SendMail');
+const multer  = require('multer');
+
 const jwtKey = 'attendance';
 
 const router = express.Router();
+
+//Start
+const mongoose = require('mongoose');
+
+
+// Set up multer middleware to handle file uploads
+const upload = multer({
+  storage: multer.memoryStorage(), // Store files in memory as Buffers
+  limits: { fileSize: 1024 * 1024 * 10 }, // Limit file size to 10 MB
+});
+
+// Route to handle file uploads
+router.post('/upload', upload.single('selectedImage'), async (req, res) => {
+  // Create a new Image instance and populate it with the uploaded file data
+  const newImage = new Image({
+    filename: req.file.originalname,
+    data: req.file.buffer,
+  });
+
+  try {
+    // Save the image data to the database
+    await newImage.save();
+    console.log('File uploaded successfully!');
+    res.send('File uploaded successfully!');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error uploading file!');
+  }
+});
+
+//End
+
+// const upload = multer(
+//   { storage: multer.diskStorage({
+//     destination:function(req,file,cb){
+//       cb(null,"uploads")
+//     },
+//     filename: function(req,file,cb){
+//       cb(null,file.fieldname+Date.now()+".jpg");
+//     }
+//   }) }
+//   ).single("img_upl");
+
+// router.post('/upload', upload, (req, res) => {
+//   console.log(req.file);
+//   res.send('File uploaded successfully!');
+// });
+
+
+router.post('/mail', (req,res,next) => {
+  SendMail(req.body.to, req.body.subject, req.body.text);
+  res.send({message: 'Email sent'});
+});
 
 router.get('/', (req, res, next) => {
   //console.log('GET Request in Places');
@@ -11,17 +67,18 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/signup', async (req, res, next) => {
-    // //console.log(req.body);
-    let user = new User(req.body);
-    let result = await user.save();
-    result = result.toObject();
-    Jwt.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
-      if (err) {
-        res.send({ result: "Try again after sometime!" });
-      } else {
-        res.send({ result, auth: token });
-      }
-    });
+    console.log(req.body);
+    res.send(req.body);
+    // let user = new User(req.body);
+    // let result = await user.save();
+    // result = result.toObject();
+    // Jwt.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+    //   if (err) {
+    //     res.send({ result: "Try again after sometime!" });
+    //   } else {
+    //     res.send({ result, auth: token });
+    //   }
+    // });
 });
 
 router.post('/login', async (req, res, next) => {
@@ -41,12 +98,6 @@ router.post('/login', async (req, res, next) => {
   } else {
     res.send({ result: "No User Found" });
   }
-    // if (req.body.email && req.body.password) {
-    //     let user = await User.findOne(req.body).select("-password");
-    //     if (user) {
-    //         res.send(user);
-    //     }
-    // }
 });
 
 router.get('/profile/:id',verifyToken, async(req,res,next) => {
@@ -79,8 +130,17 @@ router.put('/list/:id',verifyToken, async(req,res) => {
 });
 
 router.put("/updateprofile/:id", verifyToken,async(req,res)=>{
-  console.log(req.params.id);
-  const result = await User.updateOne({_id:req.params.id},{$set: req.body,});
+  const result = await User.updateOne({_id:req.params.id},{$set: req.body});
+  res.send(result);
+})
+
+router.put("/updatePassword/:email", async(req,res)=>{
+  const result = await User.updateOne({email:req.params.email},{password: "ImGenius"});
+  res.send(result);
+})
+
+router.put("/delete/:classname", async(req,res)=> {
+  const result = await User.updateMany({class:req.params.classname},{$pop: {attendance: -1}});
   res.send(result);
 })
 
